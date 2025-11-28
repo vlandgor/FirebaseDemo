@@ -131,6 +131,9 @@ firebase.json
 storage-debug.log
 ui-debug.log
 
+# Firebase native libraries (too large for GitHub)
+Assets/Firebase/Plugins/**/*
+
 # Firebase functions (Node.js build artifacts)
 functions/node_modules/
 functions/lib/
