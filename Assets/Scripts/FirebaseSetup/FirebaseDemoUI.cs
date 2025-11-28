@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +8,14 @@ namespace FirebaseSetup
     {
         [SerializeField] private FirebaseInitializer _firebaseInitializer;
 
+        [SerializeField] private GameObject _loginPanel;
+        [SerializeField] private GameObject _userPanel;
+        
         [Header("Login UI")]
         [SerializeField] private TMP_InputField emailInput;
         [SerializeField] private TMP_InputField passwordInput;
         [SerializeField] private Button loginButton;
+        [SerializeField] private TextMeshProUGUI _loginDebugText;
 
         [Header("Database Test")]
         [SerializeField] private Button writeDbButton;
@@ -22,6 +25,10 @@ namespace FirebaseSetup
         [SerializeField] private Button setAdultButton;
         [SerializeField] private Button setMinorButton;
         [SerializeField] private Button approveParentButton;
+        [SerializeField] private TextMeshProUGUI _userDebugText;
+        
+        [Space]
+        [SerializeField] private GameObject _parentalBlockPanel;
 
         private FirebaseAuthService _authService;
         private FirebaseDatabaseService _dbService;
@@ -72,6 +79,9 @@ namespace FirebaseSetup
         {
             if (_authService == null)
             {
+                _loginDebugText.color = Color.red;
+                _loginDebugText.text = "Auth service not ready yet. Wait for Firebase to initialize.";
+                
                 Debug.LogError("Auth service not ready yet. Wait for Firebase to initialize.");
                 return;
             }
@@ -79,11 +89,18 @@ namespace FirebaseSetup
             _authService.SignIn(emailInput.text, passwordInput.text,
                 onSuccess: id =>
                 {
-                    Debug.Log($"Login successful, userId: {id}");
                     _userId = id;
+                    
+                    _userPanel.SetActive(true);
+                    _loginPanel.SetActive(false);
+                    
+                    Debug.Log($"Login successful, userId: {id}");
                 },
                 onError: err =>
                 {
+                    _loginDebugText.color = Color.red;
+                    _loginDebugText.text = $"Login failed: {err}";
+                    
                     Debug.LogError("Login failed: " + err);
                 });
         }
@@ -103,6 +120,8 @@ namespace FirebaseSetup
         // -----------------------------
         private void OnSetAdultProfile()
         {
+            _parentalBlockPanel.SetActive(false);
+            
             if (!EnsureUser()) return;
 
             _dbService.UpdateUserProfile(
@@ -112,11 +131,15 @@ namespace FirebaseSetup
                 parentApproved: true,
                 onboardingStep: "tutorial");
 
+            _loginDebugText.color = Color.black;
+            _userDebugText.text = "Set profile -> Adult (no consent required).";
             Debug.Log("Set profile -> Adult (no consent required).");
         }
 
         private void OnSetMinorProfile()
         {
+            _parentalBlockPanel.SetActive(true);
+            
             if (!EnsureUser()) return;
 
             string parentEmail = parentEmailInput != null ? parentEmailInput.text : "";
@@ -129,6 +152,8 @@ namespace FirebaseSetup
                 onboardingStep: "waiting_for_parent",
                 parentEmail: parentEmail);
 
+            _loginDebugText.color = Color.black;
+            _userDebugText.text = "Set profile -> Minor (waiting for parental consent).";
             Debug.Log("Set profile -> Minor (waiting for parental consent).");
         }
 
@@ -143,7 +168,11 @@ namespace FirebaseSetup
                 parentApproved: true,
                 onboardingStep: "tutorial");
 
+            _loginDebugText.color = Color.black;
+            _userDebugText.text = "Parent approved -> onboardingStep = tutorial.";
             Debug.Log("Parent approved -> onboardingStep = tutorial.");
+            
+            _parentalBlockPanel.SetActive(false);
         }
 
         // -----------------------------
@@ -153,12 +182,16 @@ namespace FirebaseSetup
         {
             if (string.IsNullOrEmpty(_userId))
             {
+                _loginDebugText.color = Color.red;
+                _userDebugText.text = "You must log in first.";
                 Debug.LogError("You must log in first.");
                 return false;
             }
 
             if (_dbService == null)
             {
+                _loginDebugText.color = Color.red;
+                _userDebugText.text = "Database service not ready yet.";
                 Debug.LogError("Database service not ready yet.");
                 return false;
             }
