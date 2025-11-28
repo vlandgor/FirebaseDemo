@@ -43,67 +43,139 @@
 .idea/
 *.iml
 
-# Ignore JetBrains Rider project settings
+# JetBrains Rider project settings
 /.idea/
 *.sln.iml
 
-# Ignore Auto-Generated Assets
+# Auto-Generated Assets
 *.apk
 *.unitypackage
 
-# Ignore logs and crash reports
+# Logs and crash reports
 *.log
 *.crash
 
-# Ignore Unity Collab & Cloud Build files
+# Unity Collab & Cloud Build files
 /[Uu]ser[Ss]ettings/Collab/
 /[Uu]ser[Ss]ettings/CloudBuild/
 
-# Ignore Addressables generated files
+# Addressables generated files
 /[Aa]ssets/AddressableAssetsData/*/*.bin
 /[Aa]ssets/AddressableAssetsData/*/*.hash
 /[Aa]ssets/AddressableAssetsData/*/*.json
 /[Aa]ssets/AddressableAssetsData/*/*.bundle
 
-# Ignore Plastic SCM files
+# Plastic SCM files
 /PlasticSCM/
 
-# Ignore Unity Editor-specific files
+# Unity Editor-specific files
 /Library/ShaderCache.db
 /Library/ShaderCache/
 
-# Ignore burst compiled files
+# Burst
 /Library/Bee/
 /Library/BurstCache/
 
-# Ignore XR SDK caches
+# XR SDK caches
 /Library/Oculus/
 /Library/SteamVR/
 
-# Ignore Auto-generated SteamVR files
+# Auto-generated SteamVR
 /[Aa]ssets/SteamVR_Input/
 
-# Ignore Thumbnails
+# Thumbnails
 /[Tt]humbnails/
 
-# Ignore Compiled Game Builds
+# Compiled builds
 /[Bb]uild/
 
-# Ignore Local Test Files
+# Local test files
 /[Tt]ests/[Rr]esults/
 
-# Ignore custom logs
+# Custom logs
 *.log
 *.bak
 *.tmp
 *.backup
 *.old
 
-# Ignore MacOS files
+# macOS
 .DS_Store
 
-# Ignore Windows Explorer settings
+# Windows explorer
 Thumbs.db
 
-# Ignore crash dumps
+# Crash dumps
 *.dmp
+
+
+# ================= #
+# FIREBASE SPECIFIC #
+# ================= #
+
+# Firebase CLI cache
+.firebase/
+firebase-debug.log
+.firebaserc
+
+# Firebase credentials (NEVER commit!)
+*.secret
+*.key
+*.pem
+*.p12
+*.pw
+
+# Firebase Emulator (local dev environment)
+firebase-emulator.yaml
+firebase.json
+storage-debug.log
+ui-debug.log
+
+# Firebase functions (Node.js build artifacts)
+functions/node_modules/
+functions/lib/
+functions/.cache/
+functions/.eslintcache
+functions/package-lock.json
+
+# Firebase Hosting deploy cache
+.firebase/hosting.*
+
+# Firestore emulator generated files
+firestore-debug.log
+firestore-export/
+
+# Auth emulator state
+auth-debug.log
+
+# Emulator UI cache
+ui/
+
+# Cloud Functions temporary build
+functions/lib/
+functions/dist/
+
+# Unity Firebase imported tarballs
+Assets/ExternalDependencyManager/**
+Assets/Firebase/Editor/**/Dependencies.xml
+Assets/Firebase/m2repository/
+
+# Google services local file (Android)
+google-services.json
+
+# Google service plist (iOS)
+GoogleService-Info.plist
+
+# Analytics / Crashlytics temp
+Assets/Firebase/Crashlytics/build/
+Assets/Firebase/Analytics/**/generated/
+
+# EDM4U cache
+Assets/ExternalDependencyManager/Editor/Google.IOSResolver_v*.xml
+Assets/ExternalDependencyManager/Editor/Google.VersionHandler/Data/
+
+# Cocoapods (iOS)
+Pods/
+Podfile.lock
+xcuserdata/
+DerivedData/
